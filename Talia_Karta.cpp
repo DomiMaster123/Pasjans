@@ -74,18 +74,23 @@ class Talia
     vector<Karta> talia;
     void tasuj();
     auto rozdajKarte();
+    void stworzKarty();
     public:
         Talia()
         {
-            
-            for (int i = 1;i<=13;i++)
+
+            stworzKarty();
+            tasuj();
+        }
+        void stworzKarty()
+        {
+            for (int i = 1; i <= 13; i++)
             {
-                for(int y = 0;y <=3;y++)
+                for (int y = 0; y <= 3; y++)
                 {
-                    talia.push_back(Karta(Karta::Kolor(y),Karta::Wartosc(i)));
+                    talia.push_back(Karta(Karta::Kolor(y), Karta::Wartosc(i)));
                 }
             }
-            tasuj();
         }
         void tasuj()
         {
