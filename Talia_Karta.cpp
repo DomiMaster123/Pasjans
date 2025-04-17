@@ -52,21 +52,22 @@ public:
     Karta(Kolor(k), Wartosc(w), bool z = true)
         : kolor(k), wartosc(w), zakryta(z) {}
     /*gettery sprawdzaja jaki jest kolor wartosc i czy karta jest zakryta pobierajac dane ze stworzonej karty*/
-    Kolor getColor() const { return kolor; }
-    Wartosc getValue() const { return wartosc; }
-    bool isCovered() const { return zakryta; }
+    Kolor pobierzKolor() const { return kolor; }
+    Wartosc pobierzWartosc() const { return wartosc; }
+    bool czyZakryta() const { return zakryta; }
 
     // funkcja do odkrywania karty
-    void uncover() { zakryta = false; }
+    void odkryj() { zakryta = false; }
     // funckja do zakrywania karty
-    void cover() { zakryta = true; }
+    void zakryj() { zakryta = true; }
+    string toString()
 };
 
 class Talia
 {
     vector<Karta> talia;
     void tasuj();
-    void rozdajKarte();
+    auto rozdajKarte();
     public:
         Talia()
         {
@@ -86,12 +87,11 @@ class Talia
             mt19937 g(rd());
             shuffle(talia.begin(),talia.end(),g);
         }
-        void rozdajKarte()
+        auto rozdajKarte()
         {
-            srand(time(nullptr));
-            auto wylosowanaKarta = rand() % (sizeof(talia)/sizeof(Karta(Karta::Kolor::Karo,Karta::Wartosc::Jopek)))+1;
+            auto temp =  talia.back();
+            talia.pop_back();
 
-
-
+            return temp; 
         }
 };
