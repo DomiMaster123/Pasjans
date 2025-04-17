@@ -45,6 +45,8 @@ private:
     Wartosc wartosc;
     // ustawianie zmiennej "zakryta" o typie bool, ktora bedzie przechowywala informacje o tym czy karta jest zakryta
     bool zakryta = true;
+    string nazwyWartosci[] = {"A","2","3","4","5","6","7", "8", "9","10","J","D","K"};
+    string nazwyKolorow[] = {"\u2665","\u2666","\u2660","\u2663"};
 
 public:
     /*konstruktor karty, zeby stworzyc karte nalezy podac jej kolor, wartosc
@@ -62,8 +64,7 @@ public:
     void zakryj() { zakryta = true; }
     string toString() const
     {
-        string nazwyWartosci[] = {"A","2","3","4","5","6","7", "8", "9","10","J","D","K"};
-        string nazwyKolorow[] ={"\u2665","\u2666","\u2660","\u2663"};
+        
         return nazwyWartosci[wartosc -1]+" " + nazwyKolorow[kolor];
 
     }
@@ -73,7 +74,7 @@ class Talia
 {
     vector<Karta> talia;
     void tasuj();
-    auto rozdajKarte();
+    Karta rozdajKarte();
     void stworzKarty();
     public:
         Talia()
@@ -98,7 +99,7 @@ class Talia
             mt19937 g(rd());
             shuffle(talia.begin(),talia.end(),g);
         }
-        auto rozdajKarte()
+        Karta rozdajKarte()
         {
             auto temp =  talia.back();
             talia.pop_back();
