@@ -45,8 +45,11 @@ private:
     Wartosc wartosc;
     // ustawianie zmiennej "zakryta" o typie bool, ktora bedzie przechowywala informacje o tym czy karta jest zakryta
     bool zakryta = true;
-    const string nazwyWartosci[] = {"A","2","3","4","5","6","7", "8", "9","10","J","D","K"};
-    const string nazwyKolorow[] = {"\u2665","\u2666","\u2660","\u2663"};
+    
+    static const string nazwyWartosci[13];
+    static const string nazwyKolorow[4];
+
+        
 
 public:
     /*konstruktor karty, zeby stworzyc karte nalezy podac jej kolor, wartosc
@@ -68,6 +71,12 @@ public:
         return nazwyWartosci[wartosc -1]+" " + nazwyKolorow[kolor];
 
     }
+    const string nazwyWartosci[13] = {
+        "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "D", "K"
+    };
+    const string nazwyKolorow[4] = {
+        "\u2666", "\u2665", "\u2660", "\u2663"
+    };
 };
 
 class Talia
