@@ -60,7 +60,13 @@ public:
     void odkryj() { zakryta = false; }
     // funckja do zakrywania karty
     void zakryj() { zakryta = true; }
-    string toString()
+    string toString() const
+    {
+        string nazwyWartosci[] = {"A","2","3","4","5","6","7", "8", "9","10","J","D","K"};
+        string nazwyKolorow[] ={"\u2665","\u2666","\u2660","\u2663"};
+        return nazwyWartosci[wartosc -1]+" " + nazwyKolorow[kolor];
+
+    }
 };
 
 class Talia
