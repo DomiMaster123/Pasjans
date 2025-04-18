@@ -45,16 +45,11 @@ private:
     Wartosc wartosc;
     // ustawianie zmiennej "zakryta" o typie bool, ktora bedzie przechowywala informacje o tym czy karta jest zakryta
     bool zakryta = true;
-    
-    static const string nazwyWartosci[13];
-    static const string nazwyKolorow[4];
-
-        
 
 public:
     /*konstruktor karty, zeby stworzyc karte nalezy podac jej kolor, wartosc
      i mozna podac informacje o odkryciu lub zakryciu, bo jest ona podana domyslnie*/
-    Karta(Kolor(k), Wartosc(w), bool z = true)
+    Karta(Kolor k, Wartosc w, bool z = true)
         : kolor(k), wartosc(w), zakryta(z) {}
     /*gettery sprawdzaja jaki jest kolor wartosc i czy karta jest zakryta pobierajac dane ze stworzonej karty*/
     Kolor pobierzKolor() const { return kolor; }
@@ -67,52 +62,55 @@ public:
     void zakryj() { zakryta = true; }
     string toString() const
     {
-        
-        return nazwyWartosci[wartosc -1]+" " + nazwyKolorow[kolor];
+        string nazwyWartosci[] = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "D", "K"};
+        string nazwyKolorow[] = {"\u2665", "\u2666", "\u2660", "\u2663"};
 
+        return nazwyWartosci[wartosc - 1] + " " + nazwyKolorow[kolor - 1];
     }
-    const string nazwyWartosci[13] = {
-        "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "D", "K"
-    };
-    const string nazwyKolorow[4] = {
-        "\u2666", "\u2665", "\u2660", "\u2663"
-    };
 };
 
 class Talia
 {
     vector<Karta> talia;
-    void tasuj();
-    Karta rozdajKarte();
-    void stworzKarty();
-    public:
-        Talia()
-        {
 
-            stworzKarty();
-            tasuj();
-        }
-        void stworzKarty()
+public:
+    void tasuj()
+    {
+        random_device rd;
+        mt19937 g(rd());
+        shuffle(talia.begin(), talia.end(), g);
+    }
+    Karta rozdajKarte()
+    {
+        auto temp = talia.back();
+        talia.pop_back();
+
+        return temp;
+    };
+    void stworzKarty()
+    {
+        for (int i = 0; i <= 13; i++)
         {
-            for (int i = 1; i <= 13; i++)
+            for (int y = 1; y <= 4; y++)
             {
-                for (int y = 0; y <= 3; y++)
-                {
-                    talia.push_back(Karta(Karta::Kolor(y), Karta::Wartosc(i)));
-                }
+                talia.push_back(Karta(Karta::Kolor(y), Karta::Wartosc(i)));
             }
         }
-        void tasuj()
-        {
-            random_device rd;
-            mt19937 g(rd());
-            shuffle(talia.begin(),talia.end(),g);
-        }
-        Karta rozdajKarte()
-        {
-            auto temp =  talia.back();
-            talia.pop_back();
+    };
+    Talia()
+    {
 
-            return temp; 
-        }
+        stworzKarty();
+    };
 };
+
+int main()
+{
+    Talia talia;
+    
+    for (int i = 0; i < 52; i++)
+    {
+        Karta temp = talia.rozdajKarte();
+        cout <<i+1<< " " << temp.toString()<< endl;
+    }
+}
