@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <cstdlib>
 #include <time.h>
+#include <iomanip>
 
 using namespace std;
 
@@ -72,8 +73,50 @@ public:
 class Talia
 {
     vector<Karta> talia;
+    vector<vector<Karta>> kolumny;
 
 public:
+void stworzKolumny()
+{
+    kolumny.resize(7);
+    int kartaIndex = 0;
+
+    // Rozdawanie kart do kolumn
+    for (int i = 0; i < 7; i++)
+    {
+        for (int j = 0; j <= i; j++) 
+        {
+            kolumny[i].push_back(talia[kartaIndex]);
+            if (j == i) 
+            {
+                kolumny[i].back().odkryj();
+            }
+            kartaIndex++;
+        }
+    }
+}
+
+    void wyswietlkolumny()
+    {
+        for(int i =0;i < kolumny.size();i++)
+        {
+            for(const auto &karta : kolumny[i])
+            {
+                if(karta.czyZakryta())
+                {
+                    cout << "[#]";
+
+                }
+                else
+                {
+                    cout << setw(3)<<left << karta.toString()<< " " ;
+
+                }
+            }
+            cout << endl;
+        }
+        
+    }
     void tasuj()
     {
         random_device rd;
@@ -89,7 +132,7 @@ public:
     };
     void stworzKarty()
     {
-        for (int i = 0; i <= 13; i++)
+        for (int i = 1; i <= 13; i++)
         {
             for (int y = 1; y <= 4; y++)
             {
@@ -101,16 +144,17 @@ public:
     {
 
         stworzKarty();
+        tasuj();
     };
+    
+
 };
 
 int main()
 {
     Talia talia;
+    talia.tasuj();
+    talia.stworzKolumny();
+    talia.wyswietlkolumny();
     
-    for (int i = 0; i < 52; i++)
-    {
-        Karta temp = talia.rozdajKarte();
-        cout <<i+1<< " " << temp.toString()<< endl;
-    }
 }
