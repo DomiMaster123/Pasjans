@@ -8,7 +8,18 @@
 #include <time.h>
 #include <iomanip>
 
+class Kolumna;
+class Karta;
+class Talia;
+
 using namespace std;
+
+int main()
+{
+    Talia talia;              // niezmienna zmienna
+    Talia &mojaTalia = talia; // mozna referowac nazwy do talii ale jej nie zmieniac
+    
+}
 
 class Karta
 {
@@ -73,50 +84,8 @@ public:
 class Talia
 {
     vector<Karta> talia;
-    vector<vector<Karta>> kolumny;
 
 public:
-void stworzKolumny()
-{
-    kolumny.resize(7);
-    int kartaIndex = 0;
-
-    // Rozdawanie kart do kolumn
-    for (int i = 0; i < 7; i++)
-    {
-        for (int j = 0; j <= i; j++) 
-        {
-            kolumny[i].push_back(talia[kartaIndex]);
-            if (j == i) 
-            {
-                kolumny[i].back().odkryj();
-            }
-            kartaIndex++;
-        }
-    }
-}
-
-    void wyswietlkolumny()
-    {
-        for(int i =0;i < kolumny.size();i++)
-        {
-            for(const auto &karta : kolumny[i])
-            {
-                if(karta.czyZakryta())
-                {
-                    cout << "[#]";
-
-                }
-                else
-                {
-                    cout << setw(3)<<left << karta.toString()<< " " ;
-
-                }
-            }
-            cout << endl;
-        }
-        
-    }
     void tasuj()
     {
         random_device rd;
@@ -146,15 +115,64 @@ void stworzKolumny()
         stworzKarty();
         tasuj();
     };
-    
-
 };
-
-int main()
+class Kolumna
 {
-    Talia talia;
-    talia.tasuj();
-    talia.stworzKolumny();
-    talia.wyswietlkolumny();
-    
-}
+
+private:
+    vector<Karta> karty;
+
+public:
+    bool czyCzerwony(Karta::Kolor kolor)
+    {
+        return kolor == Karta::Kier || kolor == Karta::Karo;
+    }
+
+    bool CzyMoznaDodac(const Karta &nowa, const Karta& naStosie)
+    {
+        bool roznyKolor = czyCzerwony(nowa.pobierzKolor()) != czyCzerwony(naStosie.pobierzKolor());
+        bool mniejszaWartosc = nowa.pobierzWartosc() + 1 == naStosie.pobierzWartosc();
+        if(roznyKolor && mniejszaWartosc)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    void usunKartyOdIndexu(int index)
+    {
+        if (index >= 0 && index < karty.size())
+        {
+            karty.erase((karty.begin() + index), karty.end());
+            Karta doOdkrycia = karty.back();
+            doOdkrycia.odkryj();
+        }
+    }
+    void dodajKarte(Karta& nowa)
+    {
+        if(karty.empty())
+        {
+            if(nowa.pobierzWartosc() == 13)
+            {
+                karty.push_back(nowa);
+                
+            }
+           
+        }
+
+        else
+        {
+            const Karta& ostatnia = karty.back();
+            if(CzyMoznaDodac(nowa,ostatnia))
+            {
+                karty.push_back(nowa);
+                
+            }
+
+
+        }
+    }
+};
