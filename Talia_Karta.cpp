@@ -88,9 +88,9 @@ class Talia
 public:
     void tasuj()
     {
-        random_device rd;
-        mt19937 g(rd());
-        shuffle(talia.begin(), talia.end(), g);
+        random_device rd;//generuje losowego seeda
+        mt19937 g(rd());//generuje pseudolosowe liczby 
+        shuffle(talia.begin(), talia.end(), g);//przedział mieszania liczb
     }
     Karta rozdajKarte()
     {
@@ -153,26 +153,14 @@ public:
     }
     void dodajKarte(Karta& nowa)
     {
-        if(karty.empty())
+        if(CzyMoznaDodac)
         {
-            if(nowa.pobierzWartosc() == 13)
-            {
-                karty.push_back(nowa);
-                
-            }
-           
-        }
-
-        else
-        {
-            const Karta& ostatnia = karty.back();
-            if(CzyMoznaDodac(nowa,ostatnia))
-            {
-                karty.push_back(nowa);
-                
-            }
-
-
+            karty.push_back(nowa);
         }
     }
+    bool czyMoznaZabrac(Karta zabierana)
+    {
+       auto it = find(karty.begin(),karty.end(),zabierana); 
+    }
+    
 };
