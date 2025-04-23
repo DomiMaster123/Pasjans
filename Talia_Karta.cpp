@@ -67,6 +67,10 @@ public:
     Kolor pobierzKolor() const { return kolor; }
     Wartosc pobierzWartosc() const { return wartosc; }
     bool czyZakryta() const { return zakryta; }
+    bool czyCzerwony(Karta::Kolor kolor)
+    {
+        return kolor == Karta::Kier || kolor == Karta::Karo;
+    }
 
     // funkcja do odkrywania karty
     void odkryj() { zakryta = false; }
@@ -123,10 +127,7 @@ private:
     vector<Karta> karty;
 
 public:
-    bool czyCzerwony(Karta::Kolor kolor)
-    {
-        return kolor == Karta::Kier || kolor == Karta::Karo;
-    }
+    
 
     bool CzyMoznaDodac(const Karta &nowa, const Karta& naStosie)
     {
